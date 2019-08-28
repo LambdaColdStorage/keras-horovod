@@ -1,19 +1,21 @@
-# Keras Demo
+# Guide for Horovod Installation on a Lambda Machine
 
-## Installation
+# Installation
+
 
 #### NCCL2
 
+Download NCCL v2.4.8, for CUDA 10.0, July 31,2019(O/S agnostic local installer, free to register): 
+https://developer.nvidia.com/nccl/nccl-download
+
+
 ```
-
-# Install NCCL2
-
-# Download NCCL v2.4.8, for CUDA 10.0, July 31,2019(O/S agnostic local installer, free to register): https://developer.nvidia.com/nccl/nccl-download
 tar -vxf ~/Downloads/nccl_2.4.8-1+cuda10.0_x86_64.txz -C ~/Downloads/
 
 sudo cp ~/Downloads/nccl_2.4.8-1+cuda10.0_x86_64/lib/libnccl* /usr/lib/x86_64-linux-gnu/
 sudo cp ~/Downloads/nccl_2.4.8-1+cuda10.0_x86_64/include/nccl.h  /usr/include/
 echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu' >> ~/.bashrc
+source ~/.bashrc
 
 # Install g++-4.8 (for running horovod with TensorFlow)
 sudo apt install g++-4.8
@@ -32,8 +34,6 @@ sudo mv /usr/bin/mpirun.openmpi /usr/bin/bk_mpirun.openmpi
 Use the following steps to install Open MPI:
 
 ```
-mkdir openmpi
-cd openmpi
 wget https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.1.tar.gz -P ~/Downloads
 tar -xvf ~/Downloads/openmpi-4.0.1.tar.gz -C ~/Downloads
 cd ~/Downloads/openmpi-4.0.1
@@ -50,22 +50,26 @@ source ~/.bashrc
 
 ```
 cd
+
+# Create a Python3.6 virtual environment
 sudo apt-get install python3-pip
 sudo pip3 install virtualenv 
 virtualenv -p /usr/bin/python3.6 venv-keras
 . venv-keras/bin/activate
+
+# Install keras and TensorFlow GPU backend
 pip install tensorflow-gpu==1.13.2 keras
 
 HOROVOD_NCCL_HOME=/usr/lib/x86_64-linux-gnu HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITHOUT_PYTORCH=1 HOROVOD_WITHOUT_MXNET=1 pip install --no-cache-dir horovod
 ```
 
-
-## Multi-GPU training
+# Keras Multi-GPU Training Using Horovod
 
 
 #### Clone The Example Repo
 ```
 git clone https://github.com/horovod/horovod.git
+cd horovod/examples
 ```
 
 #### With GLOO
