@@ -45,16 +45,16 @@ sudo apt install g++-4.8
 sudo apt-get install python3-pip
 sudo pip3 install virtualenv
 
-if [ -d "$HOME/venv-keras" ];
+if [ -d "$HOME/venv-horovod-keras" ];
 then
-	rm -rf "$HOME/venv-keras"
+	rm -rf "$HOME/venv-horovod-keras"
 fi
 
-virtualenv -p /usr/bin/python3.6 "$HOME/venv-keras"
-source "$HOME/venv-keras/bin/activate"
+virtualenv -p /usr/bin/python3.6 "$HOME/venv-horovod-keras"
+source "$HOME/venv-horovod-keras/bin/activate"
 
 # Install keras and TensorFlow GPU backend
-"$HOME/venv-keras/bin/pip" install tensorflow-gpu==1.13.2 keras
+"$HOME/venv-horovod-keras/bin/pip" install tensorflow-gpu==1.13.2 keras
 
 # Horovod
-HOROVOD_NCCL_HOME=/usr/lib/x86_64-linux-gnu HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITHOUT_PYTORCH=1 HOROVOD_WITHOUT_MXNET=1 "$HOME/venv-keras/bin/pip" install --no-cache-dir horovod
+HOROVOD_NCCL_HOME=/usr/lib/x86_64-linux-gnu HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITHOUT_PYTORCH=1 HOROVOD_WITHOUT_MXNET=1 "$HOME/venv-horovod-keras/bin/pip" install --no-cache-dir horovod

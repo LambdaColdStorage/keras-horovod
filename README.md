@@ -18,7 +18,7 @@ __Step Three: Run multi-GPU training__
 
 ```
 cd
-. venv-keras/bin/activate
+. venv-horovod-keras/bin/activate
 git clone https://github.com/horovod/horovod.git
 cd horovod/examples
 horovodrun -np 2 -H localhost:2 --mpi python keras_mnist.py
@@ -81,8 +81,8 @@ sudo apt install g++-4.8
 # Create a Python3.6 virtual environment
 sudo apt-get install python3-pip
 sudo pip3 install virtualenv 
-virtualenv -p /usr/bin/python3.6 venv-keras
-. venv-keras/bin/activate
+virtualenv -p /usr/bin/python3.6 venv-horovod-keras
+. venv-horovod-keras/bin/activate
 
 # Install keras and TensorFlow GPU backend
 pip install tensorflow-gpu==1.13.2 keras
@@ -95,6 +95,8 @@ HOROVOD_NCCL_HOME=/usr/lib/x86_64-linux-gnu HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_W
 
 #### Clone The Example Repo
 ```
+cd
+. venv-horovod-keras/bin/activate
 git clone https://github.com/horovod/horovod.git
 cd horovod/examples
 ```
