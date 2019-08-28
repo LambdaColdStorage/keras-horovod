@@ -12,7 +12,6 @@ tar -vxf "$HOME/Downloads/nccl_2.4.8-1+cuda10.0_x86_64.txz" -C "$HOME/Downloads"
 sudo cp "$HOME/Downloads/nccl_2.4.8-1+cuda10.0_x86_64/lib/libnccl*" /usr/lib/x86_64-linux-gnu/
 sudo cp "$HOME/Downloads/nccl_2.4.8-1+cuda10.0_x86_64/include/nccl.h"  /usr/include/
 echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu' >> ~/.bashrc
-source ~/.bashrc
 
 # Open MPI
 if [ -f /usr/bin/mpirun ]; then
@@ -33,7 +32,6 @@ make install
 
 echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/openmpi/lib' >> ~/.bashrc
 echo 'export PATH=$PATH:$HOME/openmpi/bin' >> ~/.bashrc
-source ~/.bashrc
 
 # Python env
 cd $HOME
@@ -57,4 +55,4 @@ source "$HOME/venv-horovod-keras/bin/activate"
 "$HOME/venv-horovod-keras/bin/pip" install tensorflow-gpu==1.13.2 keras
 
 # Horovod
-HOROVOD_NCCL_HOME=/usr/lib/x86_64-linux-gnu HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITHOUT_PYTORCH=1 HOROVOD_WITHOUT_MXNET=1 "$HOME/venv-horovod-keras/bin/pip" install --no-cache-dir horovod
+PATH=$PATH:$HOME/openmpi/bin LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/openmpi/lib HOROVOD_NCCL_HOME=/usr/lib/x86_64-linux-gnu HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITHOUT_PYTORCH=1 HOROVOD_WITHOUT_MXNET=1 "$HOME/venv-horovod-keras/bin/pip" install --no-cache-dir horovod
