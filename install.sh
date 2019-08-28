@@ -11,15 +11,15 @@ tar -vxf "$HOME/Downloads/nccl_2.4.8-1+cuda10.0_x86_64.txz" -C "$HOME/Downloads"
 
 sudo cp "$HOME/Downloads/nccl_2.4.8-1+cuda10.0_x86_64/lib/libnccl*" /usr/lib/x86_64-linux-gnu/
 sudo cp "$HOME/Downloads/nccl_2.4.8-1+cuda10.0_x86_64/include/nccl.h"  /usr/include/
-echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu' >> "$HOME/.bashrc"
-source "$HOME/.bashrc"
+echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu' >> ~/.bashrc
+source ~/.bashrc
 
 # Open MPI
-if test -f /usr/bin/mpirun; then
+if [ -f /usr/bin/mpirun ]; then
     sudo mv /usr/bin/mpirun /usr/bin/bk_mpirun
 fi
 
-if test -f /usr/bin/mpirun.openmpi; then
+if [ -f /usr/bin/mpirun.openmpi ]; then
     sudo mv /usr/bin/mpirun.openmpi /usr/bin/bk_mpirun.openmpi
 fi
 
@@ -31,9 +31,9 @@ cd "$HOME/Downloads/openmpi-4.0.1"
 make -j 8 all
 make install
 
-echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/openmpi/lib' >> "$HOME/.bashrc"
-echo 'export PATH=$PATH:$HOME/openmpi/bin' >> "$HOME/.bashrc"
-source "$HOME/.bashrc"
+echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/openmpi/lib' >> ~/.bashrc
+echo 'export PATH=$PATH:$HOME/openmpi/bin' >> ~/.bashrc
+source ~/.bashrc
 
 # Python env
 cd $HOME
@@ -50,7 +50,7 @@ then
 	rm -rf "$HOME/venv-keras"
 fi
 
-virtualenv -q -p /usr/bin/python3.6 "$HOME/venv-keras"
+virtualenv -p /usr/bin/python3.6 "$HOME/venv-keras"
 source "$HOME/venv-keras/bin/activate"
 
 # Install keras and TensorFlow GPU backend

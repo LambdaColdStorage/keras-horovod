@@ -1,6 +1,31 @@
 # Guide for Horovod Installation on a Lambda Machine
 
-# Installation
+# Quick Start
+
+__Step One: Download NCCL2__ 
+
+Download NCCL to `~/Downloads`. Use v2.4.8, for CUDA 10.0, July 31,2019(O/S agnostic local installer, free to register).
+https://developer.nvidia.com/nccl/nccl-download
+
+
+__Step Two: Install Horovod and Everything__ 
+
+```
+./install.sh
+```
+
+__Step Three: Run multi-GPU training__
+
+```
+cd
+. venv-keras/bin/activate
+git clone https://github.com/horovod/horovod.git
+cd horovod/examples
+horovodrun -np 2 -H localhost:2 --mpi python keras_mnist.py
+```
+
+
+# Explaination
 
 
 #### NCCL2
