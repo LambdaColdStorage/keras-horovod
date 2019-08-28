@@ -17,9 +17,9 @@ pip install tensorflow-gpu==1.13.2 keras
 # Install Openmpi
 mkdir openmpi
 cd openmpi
-wget https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.0.tar.gz
-tar -xvf openmpi-4.0.0.tar.gz
-cd openmpi-4.0.0
+wget https://download.open-mpi.org/release/open-mpi/v3.1/openmpi-3.1.2.tar.gz
+tar -xvf openmpi-3.1.2.tar.gz
+cd openmpi-3.1.2
 ./configure --prefix=$HOME/openmpi
 make -j 8 all
 make install
@@ -28,13 +28,7 @@ echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/openmpi/lib' >> ~/.bashrc
 echo 'export PATH=$PATH:~/openmpi/bin' >> ~/.bashrc
 cd ../..
 
-
-or 
-
-wget https://s3-us-west-2.amazonaws.com/lambdalabs-files/openmpi_4.0.0-2_amd64.deb
-sudo dpkg -i openmpi_4.0.0-2_amd64.deb
-sudo apt install libopenmpi-dev
-
+# Need to make sure there is no /usr/bin/miprun
 
 # Install NCCL2
 
@@ -50,12 +44,18 @@ sudo apt install g++-4.8
 
 
 # Install Horovod
-HOROVOD_NCCL_HOME=/usr/lib/x86_64-linux-gnu HOROVOD_GPU_ALLREDUCE=NCCL pip install --no-cache-dir horovod
+HOROVOD_NCCL_HOME=/usr/lib/x86_64-linux-gnu HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_WITH_TENSORFLOW=1 HOROVOD_WITHOUT_PYTORCH=1 HOROVOD_WITHOUT_MXNET=1 pip install --no-cache-dir horovod
 ```
 
 
 ### Multi-GPU training
 
 ```
-mpirun -np 2 -H localhost:2 -bind-to none -map-by slot -x NCCL_DEBUG=INFO -x LD_LIBRARY_PATH -x PATH -mca pml ob1 -mca btl ^openib python keras_mnist.py
+horovodrun -np 2 -H localhost:2 python keras_mnist.py
+
+mpirun -np 2 \
+    -bind-to none -map-by slot \
+    -x NCCL_DEBUG=INFO -x LD_LIBRARY_PATH -x PATH \
+    -mca pml ob1 -mca btl ^openib \
+    python keras_mnist.py
 ```
