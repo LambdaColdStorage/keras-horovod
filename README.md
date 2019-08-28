@@ -17,8 +17,7 @@ sudo cp ~/Downloads/nccl_2.4.8-1+cuda10.0_x86_64/include/nccl.h  /usr/include/
 echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu' >> ~/.bashrc
 source ~/.bashrc
 
-# Install g++-4.8 (for running horovod with TensorFlow)
-sudo apt install g++-4.8
+
 ```
 
 #### Open MPI (Optional)
@@ -50,6 +49,9 @@ source ~/.bashrc
 
 ```
 cd
+
+# Install g++-4.8 (for running horovod with TensorFlow)
+sudo apt install g++-4.8
 
 # Create a Python3.6 virtual environment
 sudo apt-get install python3-pip
